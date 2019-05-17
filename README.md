@@ -16,23 +16,34 @@ As a result, the initial preprocessing is done through Dataflow and consists of 
 
 This reduces simply to a binary classification problem.
 
-1. Preprocessing
+### Prerequisites
+
+To test the demo, you need Google Cloud SDK logged in to the GCP Project 'artefact-ml-specialization'.
+
+#### 1. Preprocessing
 
 ```
 python dataflow_blackfriday.py  --output gs://artefact-spec-partners-ml/results/output --runner DataflowRunner --project artefact-ml-specialization --temp_location gs://artefact-spec-partners-ml/tmp/
 ```
+The Dataflow pipeline executes the mappings and groupby operations needed to identify VIP Customers.
 
-This has to be done once (not at every training).
+Input: BlackFriday dataset on BigQuery
+Output: Aggregated data, pushed to BigQuery
 
-2. Training
+![alt text](https://raw.githubusercontent.com/artefactory/google_ml_specialization/master/images/dataflow_1.png)
+
+
+This preprocessing has to be done once (not at every training).
+
+#### 2. Training
 
 ```
 ./train_new_model.sh 
 
 
 ```
-
-3. Predicting
+This 
+#### 3. Predicting
 
 ```
 python predict_test.py

@@ -1,7 +1,4 @@
-from __future__ import absolute_import
-import googleapiclient.discovery
 from google.cloud import bigquery
-import datetime
 import os
 import subprocess
 import sys
@@ -12,7 +9,6 @@ import pickle
 from sklearn.preprocessing import OneHotEncoder
 import xgboost as xgb
 
-from past.builtins import unicode
 
 ### CONFIG VARIABLES
 
@@ -114,21 +110,6 @@ subprocess.check_call(['gsutil', 'cp', test_data_filename, os.path.join(data_dir
 subprocess.check_call(['gsutil', 'cp', test_target_filename, os.path.join(data_dir,
                                                     test_target_filename)], stderr=sys.stdout)
 
-# train_data = train_data.values
-# train_target = train_target.values
-#
-# test_data = test_data.values
-# test_target = test_target.values
-#
-# # Convert one-column 2D array into 1D array for use with XGBoost
-# train_target = train_target.reshape((train_target.size,))
-
-# [START train-and-save-model]
-# Load data into DMatrix object
-# dtrain = xgb.DMatrix(data, label=target)
-
-# Train XGBoost model
-# bst = xgb.train({}, dtrain, 20)
 
 ### PREPROCESSING
 
@@ -141,7 +122,7 @@ y = train_target
 clf = LogisticRegression()
 clf.fit(X, y)
 
-print clf.score(X,y)
+# print clf.score(X,y)
 
 ### EXPORT PREPROCESSOR AND MODEL
 # Export the classifier to a file
@@ -152,28 +133,3 @@ subprocess.check_call(['gsutil', 'cp', preprocessor_filename, gcs_preprocessor_p
 joblib.dump(clf, model_filename)
 subprocess.check_call(['gsutil', 'cp', model_filename, gcs_model_path],
     stderr=sys.stdout)
-# bst.save_model(model_filename)
-# [END train-and-save-model]
-
-
-# [START upload-model]
-# Upload the saved model file to Cloud Storage
-
-# [END upload-model]
-
-# PROJECT_ID = "artefact-ml-specialization"
-# MODEL_NAME = "blackfriday"
-# 
-# service = googleapiclient.discovery.build('ml', 'v1')
-# parent = 'projects/{}/models/{}'.format(PROJECT_ID, MODEL_NAME)
-# 
-# response = service.projects().models().versions().create(
-#     parent=parent,
-#     body={
-#     "name": datetime.datetime.now().strftime('blackfriday_%Y%m%d_%H%M%S'),
-#     "deploymentUri": "gs://artefact-spec-partners-ml/iris_20190515_144146/",
-#     "runtimeVersion": "1.13",
-#     "framework": "XGBOOST",
-#     "pythonVersion": "2.7"
-#   }
-# ).execute()

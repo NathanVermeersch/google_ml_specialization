@@ -1,0 +1,4 @@
+pandas==0.23.0
+scikit-learn==0.20.2
+google-cloud-bigquery==1.6.1
+apache-beam==2.12.0
