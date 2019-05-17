@@ -30,7 +30,7 @@ The Dataflow pipeline executes the mappings and groupby operations needed to ide
 Input: BlackFriday dataset on BigQuery
 Output: Aggregated data, pushed to BigQuery
 
-![alt text](https://drive.google.com/file/d/1FQ_Z080exLG8cI0PFxln7nNIBzQEfaWo/view)
+![alt text](https://drive.google.com/uc?export=view&id=1FQ_Z080exLG8cI0PFxln7nNIBzQEfaWo)
 
 
 This preprocessing has to be done once (not at every training).
