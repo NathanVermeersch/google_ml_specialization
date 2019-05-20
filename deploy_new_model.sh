@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-gsutil cp gs://artefact-spec-partners-ml/blackfriday_model/preprocessor.pkl preprocessor.pkl
-gsutil cp gs://artefact-spec-partners-ml/blackfriday_model/model.joblib model.joblib
+gsutil cp gs://artefact-spec-partners-ml/models/blackfriday/config_2/preprocessor.pkl preprocessor.pkl
+gsutil cp gs://artefact-spec-partners-ml/models/blackfriday/config_2/model.joblib model.joblib
 
 python setup.py sdist --formats=gztar
 

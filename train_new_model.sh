@@ -3,8 +3,8 @@
 PROJECT_ID=artefact-ml-specialization
 BUCKET_ID=artefact-spec-partners-ml
 JOB_NAME=blackfriday_training_$(date +"%Y%m%d_%H%M%S")
-JOB_DIR=gs://$BUCKET_ID/blackfriday_job_dir
-TRAINING_PACKAGE_PATH="./simple_trainer/"
+JOB_DIR=gs://$BUCKET_ID/new_job_dir
+TRAINING_PACKAGE_PATH="./training_package/simple_trainer/"
 MAIN_TRAINER_MODULE=simple_trainer.training
 REGION=europe-west1
 RUNTIME_VERSION=1.13

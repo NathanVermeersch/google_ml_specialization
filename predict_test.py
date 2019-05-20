@@ -1,11 +1,20 @@
 import googleapiclient.discovery
+import argparse
+import sys
 
-instances = [['F', '0-17', 10, 'A', '2', 0, 1, 6.0, 14.0,
-        15200],
-       ['M', '46-50', 7, 'B', '2', 1, 1, 8.0, 17.0,
-        19215],
-             ]
+parser = argparse.ArgumentParser()
 
+parser.add_argument('--instances',
+                    dest='instances',
+                    required=False, default="[['F', '0-17', 10, 'A', '2', 0, 1, 6.0, 14.0,15200],['M', '46-50', 7, 'B', '2', 1, 1, 8.0, 17.0,19215],]",
+                    help='Instances to feed the predictor.')
+
+known_args, pipeline_args = parser.parse_known_args(sys.argv)
+
+
+instances = eval(known_args.instances)
+
+print instances
 
 PROJECT_ID = "artefact-ml-specialization"
 MODEL_NAME = "blackfriday"
@@ -21,15 +30,4 @@ response = service.projects().predict(
 if 'error' in response:
     raise RuntimeError(response['error'])
 else:
-  print(response['predictions'])
-
-
-# response = service.projects().predict(
-#     name=name,
-#     body={'instances': instances, 'probabilities': True}
-# ).execute()
-#
-# if 'error' in response:
-#     raise RuntimeError(response['error'])
-# else:
-#   print(response['predictions'])
+    print("The predictions for each potential consumer are: {}".format(response['predictions']))

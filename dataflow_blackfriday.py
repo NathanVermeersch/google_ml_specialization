@@ -50,21 +50,21 @@ def run(argv=None):
 
     # Read the text file[pattern] into a PCollection.
     input = (p
-             | 'ReadTable' >> beam.io.Read(beam.io.BigQuerySource(table_spec))
-             | 'Format' >> beam.Map(lambda x: ({'User_ID': x['User_ID'],'Gender': x['Gender'], 'Age': x['Age'], 'Occupation': x['Occupation'],
+             | 'Read Raw Data From BQ' >> beam.io.Read(beam.io.BigQuerySource(table_spec))
+             | 'Map' >> beam.Map(lambda x: ({'User_ID': x['User_ID'],'Gender': x['Gender'], 'Age': x['Age'], 'Occupation': x['Occupation'],
                            'City_Category': x['City_Category'], 'Stay_In_Current_City_Years': x['Stay_In_Current_City_Years'], 'Marital_Status': x['Marital_Status']}, x['Purchase']))
-             | 'Group' >> beam.GroupByKey()
-             | 'Sum' >> beam.Map(sum_purchase))
+             | 'GroupBy User' >> beam.GroupByKey()
+             | 'Reduce' >> beam.Map(sum_purchase))
 
     # Write the output using a "Write" transform that has side effects.
     # pylint: disable=expression-not-assigned
-    input | 'write' >> WriteToText(known_args.output, file_name_suffix=".json", shard_name_template='')
+    input | 'Write As Text' >> WriteToText(known_args.output, file_name_suffix=".json", shard_name_template='')
 
     table_spec_output = '{}:blackfriday.processed_full_data'.format(PROJECT_ID)
 
     table_schema = 'User_ID:INTEGER, Gender:STRING, Age:STRING, Occupation:INTEGER, City_Category:STRING, Stay_In_Current_City_Years:STRING, Marital_Status:INTEGER, VIP_Purchase:INTEGER'
 
-    input | 'write_BQ' >> beam.io.WriteToBigQuery(
+    input | 'Write to BQ' >> beam.io.WriteToBigQuery(
         table_spec_output,
         schema=table_schema,
         write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE,
